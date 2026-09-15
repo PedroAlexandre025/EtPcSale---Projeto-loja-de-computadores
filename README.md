@@ -7,10 +7,24 @@ A EtPcSale permitirá cadastrar produtos e clientes, controlar o estoque e regis
 
 MVC divide o sistema em três partes:
 
-Model - Produtos, Clientes, Venda...
+Core: Main java
 
-View - Telas dos produtos, clientes, vendas...
+Model 
 
-Controoler - Cadastros, busca cliente, finalizar vendas...
+entitties: Produtos, Clientes, ItemVenda, Fornecedor, entradaEstoque, Vendas, Pessoa;
+Repository: 
+Enums: Categoria Produto, 
+Service:
 
+View: 
+
+Telas dos produtos, clientes, vendas...
+
+Controoler:
+
+ - Cadastros, busca cliente, finalizar vendas...
+
+
+
+Separação para melhor manutenção do código.
 

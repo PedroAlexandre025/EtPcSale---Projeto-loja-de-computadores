@@ -25,7 +25,7 @@ public abstract class Pessoa{
     public abstract String getDocumento();
 
     @Override
-    public  String toString(){
+    public String toString(){
         return id + " - " + nome;
     }
 
