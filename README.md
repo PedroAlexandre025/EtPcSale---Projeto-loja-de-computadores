@@ -1,5 +1,5 @@
 ## Trabalho de Java - Loja EtPcSale, componentes e pc's completos
-## Alunos: Pedro, Ryan, Talles
+## Alunos: Pedro, Ryan, Thalles
 
 A EtPcSale permitirá cadastrar produtos e clientes, controlar o estoque e registrar vendas de computadores, placas de vídeo, processadores e outros acessórios.
 
