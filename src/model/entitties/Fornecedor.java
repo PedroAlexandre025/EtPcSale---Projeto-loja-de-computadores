@@ -2,21 +2,17 @@ package model.entitties;
 
 public  class Fornecedor extends Pessoa {
 
-    private String cnpj;
+    private final String  cnpj;
     private String razaoSocial;
 
-    public Fornecedor(String nome, String telefone, String email, String cnpj, String razaoSocial) {
-        super(nome, telefone, email);
+    public Fornecedor(int id, String nome, String telefone, String cnpj, String razaoSocial) {
+        super(id, nome, telefone);
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial          ;
     }
 
-    public String getCnpj() {
+    public String getDocumento() {
         return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
     }
 
     public String getRazaoSocial() {

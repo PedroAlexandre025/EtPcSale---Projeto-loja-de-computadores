@@ -13,7 +13,7 @@ public class ClienteService {
 
     private int proximoId = 1;
 
-    public ClienteService(Repositorio<Cliente, Integer> repositorio, Repositorio<Venda,  Interger > Movimentos) {
+    public ClienteService(Repositorio<Cliente, Integer> repositorio, Repositorio<Venda,  Integer > Movimentos) {
         this.repositorio = repositorio;
         this.repositorioVenda = Movimentos;
     }
@@ -21,7 +21,7 @@ public class ClienteService {
     public List<Cliente> listarClientes() {
         return repositorio.listarTodos();
     }
-    
+
     public Cliente SalvarCliente(String nome, String telefone, String cpf, String email) {
         
         String nomeValido = validacao.texto(nome, "Nome");
@@ -30,7 +30,7 @@ public class ClienteService {
         String emailValido = validacao.email(email);
 
         if(id != null && repositorio.buscarPorId(id).isEmpty()) throw new IllegalArgumentException("Cliente não encontrado para o ID fornecido.");
-        boolean repetido = listar().stream.anyMatch(c -> c.getCpf().equals(cpfValido) && (id == null || !c.getId().equals(id)));
+        boolean repetido = listar().stream.anyMatch(c -> c.getDocumento().equals(cpfValido) && (id == null || !c.getId().equals(id)));
         if(repetido) throw new IllegalArgumentException("Já existe um cliente cadastrado com o CPF informado.");
 
         if (email == null || email.trim().matches("[^@]+@[^@]+\\.[^@]+")) throw new IllegalArgumentException("Email inválido. O email deve conter um '@' e um domínio válido.");

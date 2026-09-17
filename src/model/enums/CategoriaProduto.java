@@ -1,3 +1,4 @@
+package model.enums;
 public enum CategoriaProduto {
 
     COMPUTADOR, 
@@ -6,5 +7,5 @@ public enum CategoriaProduto {
     MEMORIA_RAM, 
     ARMAZENAMENTO,
     PERIFERICO, 
-    ACESSORIO
+    ACESSORIO;
 }

@@ -1,7 +1,7 @@
 package model.entitties;
 
 import java.math.BigDecimal;
-import etpcsale.model.enums.CategoriaProduto;
+import model.enums.*;
 
 public class Produto{
     private final int id;
@@ -23,6 +23,10 @@ public class Produto{
 
     public String getNome(){
         return  nome;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
     }
 
     public CategoriaProduto getCategoria(){

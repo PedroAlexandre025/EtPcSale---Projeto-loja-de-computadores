@@ -1,11 +1,13 @@
 package model.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 public class Repositorio< T, ID> {
-    void salavar(T objeto){
+
+    void salvar(T objeto){
 
     }
 
@@ -17,5 +19,7 @@ public class Repositorio< T, ID> {
 
     }
 
-    
+    void listarTodos(){
+
+    }
 }

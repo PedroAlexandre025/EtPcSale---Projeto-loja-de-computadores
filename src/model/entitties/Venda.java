@@ -11,7 +11,7 @@ public class Venda {
     private final Cliente cliente;
     private final List<ItemVenda> itens;
     private final LocalDateTime data = LocalDateTime.now();
-    private final FormaPagamentos pagamentos;
+    private final FormaPagamentos formaPagamentos;
     private final BigDecimal desconto;
     private StatusVenda status = StatusVenda.FINALIZADA;
 
@@ -33,7 +33,7 @@ public class Venda {
     }
 
     public  Cliente getCliente(){
-        return Cliente;
+        return cliente;
     }
 
     public List<ItemVenda> getItens(){

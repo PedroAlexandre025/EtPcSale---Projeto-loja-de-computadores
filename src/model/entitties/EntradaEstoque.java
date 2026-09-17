@@ -1,6 +1,6 @@
 package model.entitties;
 
-import java.util.LocalDateTime;
+import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
 public class EntradaEstoque{
