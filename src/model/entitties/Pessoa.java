@@ -1,6 +1,8 @@
 package model.entitties;
 
-public abstract class Pessoa{
+import interfaces.Identificavel;
+
+public abstract class Pessoa implements Identificavel<Integer> {
     private final int id;
     private final String nome, telefone;
     protected Pessoa ( int id, String nome, String telefone){
@@ -8,8 +10,8 @@ public abstract class Pessoa{
         this.nome = nome;
         this.telefone = telefone;
     }
-
-    public int getId(){
+    @Override
+    public Integer getId(){
         return id;
     }
 

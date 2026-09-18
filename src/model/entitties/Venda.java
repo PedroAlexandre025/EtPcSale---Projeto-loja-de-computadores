@@ -3,9 +3,11 @@ package model.entitties;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.List;
+
+import interfaces.Identificavel;
 import model.enums.*;
 
-public class Venda {
+public class Venda implements Identificavel<Integer> {
     
     private final int id;
     private final Cliente cliente;
@@ -27,13 +29,13 @@ public class Venda {
         this.desconto = desconto;
     }
 
-
-    public int getId(){
+    @Override
+    public Integer getId(){
         return id;
     }
 
-    public  Cliente getCliente(){
-        return cliente;
+    public Cliente getCliente(){
+        return this.cliente;
     }
 
     public List<ItemVenda> getItens(){
