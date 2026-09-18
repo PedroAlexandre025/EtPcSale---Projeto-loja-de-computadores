@@ -11,6 +11,7 @@ public class Repositorio< T extends Identificavel<ID>, ID> {
      List<T> list = new ArrayList<>();
     public void salvar(T objeto){
         list.add(objeto);
+
     }
 
     public Optional<T> buscarPorId(ID id){
