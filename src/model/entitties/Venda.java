@@ -15,7 +15,7 @@ public class Venda implements Identificavel<Integer> {
     private final LocalDateTime data = LocalDateTime.now();
     private final FormaPagamentos formaPagamentos;
     private final BigDecimal desconto;
-    private StatusVenda status = StatusVenda.FINALIZADA;
+    private StatusVenda status = StatusVenda.ABERTA;
 
 
     public Venda(int id, Cliente cliente, List<ItemVenda> itens, FormaPagamentos formaPagamentos, BigDecimal desconto){
@@ -70,9 +70,16 @@ public class Venda implements Identificavel<Integer> {
 
     // aqui é para cancelar a venda, tem cliente que fica 1h no caixa e sai nao compra nada... ai tem que ter né
 
+    public void finalizar(){
+        if (status == StatusVenda.CANCELADA || status == StatusVenda.FINALIZADA){
+            throw new IllegalArgumentException("Operação inválida.");
+        }
+        status = StatusVenda.FINALIZADA;
+    }
     public void Cancelar(){
         if(status == StatusVenda.CANCELADA) throw new IllegalArgumentException("Vennda Cancelada");
         status = StatusVenda.CANCELADA;
     }
+
 
 }

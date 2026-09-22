@@ -6,14 +6,13 @@ import java.math.BigDecimal;
 public class EntradaEstoque{
 
     private final int id, quantidade;
-    private final Fornecedor fornecedor;
     private final Produto produto;
     private final BigDecimal custoUnitario;
     private final LocalDateTime dataEntrada = LocalDateTime.now();
 
     public EntradaEstoque(int id, Fornecedor fornecedor, Produto produto, int quantidade, BigDecimal custoUnitario) {
         this.id = id;
-        this.fornecedor = fornecedor;
+
         this.produto = produto;
         this.quantidade = quantidade;
         this.custoUnitario = custoUnitario;
@@ -24,7 +23,7 @@ public class EntradaEstoque{
     }
 
     public Fornecedor getFornecedor(){
-        return fornecedor;
+        return produto.getFornecedor();
     }
 
     public Produto getProduto(){

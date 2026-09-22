@@ -12,9 +12,9 @@ public class FornecedorTableModel extends TableModelBase<Fornecedor> {
                         fornecedor.getRazaoSocial(),
                         fornecedor.getId(),
                         fornecedor.getTelefone(),
-                        fornecedor.getProdutoFornecido() == null
-                                ? "Não informado"
-                                : fornecedor.getProdutoFornecido().getNome()
+                        //fornecedor.getProdutoFornecido() == null
+                             //   ? "Não informado"
+                               // : fornecedor.getProdutoFornecido().getNome()
                 }
         );
     }

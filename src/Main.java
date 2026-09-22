@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+import controller.ClienteController;
 import view.TelaPrincipal;
 import view.cadastro.CadastroClientePanel;
 import view.cadastro.CadastroProdutoPanel;
@@ -35,6 +37,7 @@ public class Main {
             aguardarController(clientes.salvar, clientes.remover, produtos.salvar,
                     produtos.remover, vendas.adicionarItem, vendas.removerItem,
                     vendas.finalizar, vendas.cancelarVenda);
+            new ClienteController(clientes);
             //fazer os crontrooler
             tela.aviso("salvar, remover e movimentar vendas falta fazer os controller por isso nao funfa.");
             tela.setVisible(true);
@@ -43,7 +46,7 @@ public class Main {
 
     private static void aguardarController(JButton... botoes) {
         for (JButton botao : botoes) {
-            botao.setEnabled(false);
+            botao.setEnabled(true);
             //aqui só vcai fujncionar qujando fazer os controoler
             botao.setToolTipText("FAZER O CONTROLLER DAQUI TBM.");
         }

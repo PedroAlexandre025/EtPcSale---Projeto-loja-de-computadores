@@ -31,13 +31,16 @@ public class ClienteService {
         String cpfValido = validacao.cpf(cpf);
         String emailValido = validacao.email(email);
 
-        if(!repositorio.buscarPorId(id).isEmpty()) throw new IllegalArgumentException("Já existe um cliente para o ID fornecido.");
+        if(!(repositorio.buscarPorId(id).isEmpty())) throw new IllegalArgumentException("Já existe um cliente para o ID fornecido.");
 
         boolean repetido = listarClientes().stream().anyMatch(c -> c.getDocumento().equals(cpfValido));
         if(repetido) throw new IllegalArgumentException("Já existe um cliente cadastrado com o CPF informado.");
 
         repetido = listarClientes().stream().anyMatch(c -> c.getEmail().equals(emailValido));
         if (repetido) throw new IllegalArgumentException("Email já cadastrado.");
+
+        repetido = listarClientes().stream().anyMatch(c -> c.getTelefone().equals(telefone));
+        if (repetido) throw new IllegalArgumentException("Telefone já cadastrado para outro cliente");
 
         Cliente cliente = new Cliente(id, nomeValido, telefoneValido, cpfValido, emailValido);
         repositorio.salvar(cliente);

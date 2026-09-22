@@ -1,8 +1,10 @@
 package interfaces;
 
+import java.math.BigDecimal;
+
 public interface validacao {
 
-
+//CLIENTE
     static String texto(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("O nome é obrigatório.");
@@ -22,7 +24,7 @@ public interface validacao {
     }
 
     static String cpf(String cpf){
-        if (cpf.length()!=11)g{
+        if (cpf.length()!=11){
             throw new IllegalArgumentException("CPF inválido");
         }
         return cpf;
@@ -41,4 +43,57 @@ public interface validacao {
 
         return emailValido;
     }
+
+
+    //PRODUTO
+
+    static BigDecimal preco(BigDecimal preco){
+
+        if(preco==null || preco.compareTo(BigDecimal.ZERO) == -1){
+            throw new IllegalArgumentException("Informe um valor válido para o produto.");
+        }
+        return preco;
+    }
+    static int quantidade(int quantidade){
+        if (quantidade<0){
+            throw new IllegalArgumentException("Informe uma quantidade válida.");
+        }
+        return quantidade;
+    }
+
+    // FORNECEDOR
+
+    static  String cnpj(String cnpj){
+
+        if (cnpj.length()!=14){
+            throw new IllegalArgumentException("CNPJ inválido");
+
+        }
+        String nums = "1234567890";
+
+        for (int i = 0; i<cnpj.length(); i++){
+            int cont  = 0;
+
+            for (int j = 0; j<nums.length(); j++){
+                if (cnpj.charAt(i) == nums.charAt(j)){
+                    break;
+                }
+                cont++;
+            }
+
+            if (cont == nums.length()){//comparou todas os numeros e nao é nenhum
+                throw new IllegalArgumentException("CNPJ inválido.");
+            }
+        }
+        return cnpj;
+    }
+
+    static String razaoSocial(String razaoSocial){
+        if (razaoSocial ==null){
+            throw new IllegalArgumentException("Insira uma razão social.");
+        }
+        return razaoSocial;
+    }
 }
+
+

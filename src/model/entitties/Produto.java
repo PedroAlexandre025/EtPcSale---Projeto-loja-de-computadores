@@ -1,23 +1,29 @@
 package model.entitties;
 
 import java.math.BigDecimal;
+import java.util.FormatterClosedException;
+
+import interfaces.Identificavel;
 import model.enums.*;
 
-public class Produto{
+public class Produto implements Identificavel<Integer> {
     private final int id;
     private final String nome;
     private final CategoriaProduto categoria;
     private  final BigDecimal preco;
     private int estoque;
-    public Produto(int id, String nome, CategoriaProduto categoria, BigDecimal preco, int estoque){
+    private Fornecedor fornecedor;
+
+    public Produto(int id, String nome, CategoriaProduto categoria, BigDecimal preco, int estoque, Fornecedor fornecedor){
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
         this.preco = preco;
         this.estoque = estoque;
+        this.fornecedor = fornecedor;
     }
-
-    public int getId(){
+    @Override
+    public Integer getId(){
             return id;
     }
 
@@ -35,6 +41,10 @@ public class Produto{
 
     public  int getEstoque(){
         return estoque;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 
     public void adicionarEstoque(int quantidade){

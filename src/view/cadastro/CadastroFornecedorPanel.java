@@ -71,7 +71,7 @@ public class CadastroFornecedorPanel extends FormularioPanel {
         telefone.setText(fornecedor.getTelefone());
         cnpj.setText(fornecedor.getDocumento());
         razaoSocial.setText(fornecedor.getRazaoSocial());
-        prodFornecido.setSelectedItem(fornecedor.getProdutoFornecido());
+        //prodFornecido.setSelectedItem(fornecedor.getProdutoFornecido());
     }
 
     public Fornecedor getSelecionado() {
