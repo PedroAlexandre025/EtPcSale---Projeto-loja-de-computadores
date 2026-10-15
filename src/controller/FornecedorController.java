@@ -15,8 +15,8 @@ public class FornecedorController extends ControllerBase {
     public FornecedorController(
             CadastroFornecedorPanel view,
             FornecedorService service,
-            ProdutoController produtoController) {
-
+            ProdutoController produtoController
+    ) {
         this.view = view;
         this.service = service;
         this.produtoController = produtoController;
@@ -26,9 +26,7 @@ public class FornecedorController extends ControllerBase {
     }
 
     private void carregarFornecedores() {
-        view.model.setDados(
-                service.listarFornecedores()
-        );
+        view.model.setDados(service.listarFornecedores());
     }
 
     @Override
@@ -44,35 +42,23 @@ public class FornecedorController extends ControllerBase {
 
     private void salvarFornecedor() {
         try {
-            Fornecedor fornecedorSelecionado =
-                    view.getSelecionado();
+            Fornecedor fornecedorSelecionado = view.getSelecionado();
 
-            String nome =
-                    view.nome.getText().trim();
-
-            String telefone =
-                    view.telefone.getText().trim();
-
-            String cnpj =
-                    view.cnpj.getText().trim();
-
-            String razaoSocial =
-                    view.razaoSocial.getText().trim();
+            String nome = view.nome.getText().trim();
+            String telefone = view.telefone.getText().trim();
+            String cnpj = view.cnpj.getText().trim();
+            String razaoSocial = view.razaoSocial.getText().trim();
 
             if (fornecedorSelecionado == null) {
-                Fornecedor fornecedor =
-                        service.RegistrarFornecedor(
-                                nome,
-                                telefone,
-                                cnpj,
-                                razaoSocial
-                        );
+                Fornecedor fornecedor = service.RegistrarFornecedor(
+                        nome,
+                        telefone,
+                        cnpj,
+                        razaoSocial
+                );
 
                 view.model.addDados(fornecedor);
-
                 produtoController.atualizarFornecedores();
-
-                view.limparCampos();
 
                 JOptionPane.showMessageDialog(
                         view,
@@ -80,7 +66,6 @@ public class FornecedorController extends ControllerBase {
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE
                 );
-
             } else {
                 service.atualizarFornecedor(
                         fornecedorSelecionado.getId(),
@@ -114,8 +99,7 @@ public class FornecedorController extends ControllerBase {
 
     private void removerFornecedor() {
         try {
-            Fornecedor fornecedor =
-                    view.getSelecionado();
+            Fornecedor fornecedor = view.getSelecionado();
 
             if (fornecedor == null) {
                 JOptionPane.showMessageDialog(
@@ -124,24 +108,20 @@ public class FornecedorController extends ControllerBase {
                         "Aviso",
                         JOptionPane.WARNING_MESSAGE
                 );
-
                 return;
             }
 
-            boolean confirmou =
-                    view.confirmar(
-                            "Deseja remover o fornecedor \""
-                                    + fornecedor.getRazaoSocial()
-                                    + "\"?"
-                    );
+            boolean confirmou = view.confirmar(
+                    "Deseja remover o fornecedor \""
+                            + fornecedor.getRazaoSocial()
+                            + "\"?"
+            );
 
             if (!confirmou) {
                 return;
             }
 
-            service.remover(
-                    fornecedor.getId()
-            );
+            service.remover(fornecedor.getId());
 
             carregarFornecedores();
             view.limparCampos();
@@ -164,8 +144,7 @@ public class FornecedorController extends ControllerBase {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     view,
-                    "Erro ao remover fornecedor: "
-                            + ex.getMessage(),
+                    "Erro ao remover fornecedor: " + ex.getMessage(),
                     "Erro",
                     JOptionPane.ERROR_MESSAGE
             );

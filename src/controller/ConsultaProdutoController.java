@@ -10,8 +10,8 @@ public class ConsultaProdutoController extends ControllerBase {
 
     public ConsultaProdutoController(
             ConsultaProdutoPanel view,
-            ProdutoService service) {
-
+            ProdutoService service
+    ) {
         this.view = view;
         this.service = service;
 
@@ -20,10 +20,7 @@ public class ConsultaProdutoController extends ControllerBase {
     }
 
     private void carregarProdutos() {
-        view.model.setDados(
-                service.listarProdutos()
-        );
-
+        view.model.setDados(service.listarProdutos());
         view.aplicarFiltros();
     }
 
@@ -33,10 +30,7 @@ public class ConsultaProdutoController extends ControllerBase {
     }
 
     public void atualizarTabela() {
-        view.model.setDados(
-                service.listarProdutos()
-        );
-
+        view.model.setDados(service.listarProdutos());
         view.aplicarFiltros();
     }
 }

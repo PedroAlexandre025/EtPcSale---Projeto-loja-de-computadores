@@ -26,17 +26,16 @@ public class VendaController extends ControllerBase {
 
     private Venda vendaAtual;
 
-    private final NumberFormat formato =
-            NumberFormat.getNumberInstance(
-                    Locale.forLanguageTag("pt-BR")
-            );
+    private final NumberFormat formato = NumberFormat.getNumberInstance(
+            Locale.forLanguageTag("pt-BR")
+    );
 
     public VendaController(
             MovimentoVendaPanel view,
             VendaService service,
             ClienteService clienteService,
-            ProdutoService produtoService) {
-
+            ProdutoService produtoService
+    ) {
         this.view = view;
         this.service = service;
         this.clienteService = clienteService;
@@ -49,21 +48,15 @@ public class VendaController extends ControllerBase {
     }
 
     private void carregarClientes() {
-        view.definirClientes(
-                clienteService.listarClientes()
-        );
+        view.definirClientes(clienteService.listarClientes());
     }
 
     private void carregarProdutos() {
-        view.definirProdutos(
-                produtoService.listarProdutos()
-        );
+        view.definirProdutos(produtoService.listarProdutos());
     }
 
     private void carregarVendas() {
-        view.modelVendas.setDados(
-                service.listarVendas()
-        );
+        view.modelVendas.setDados(service.listarVendas());
     }
 
     @Override
@@ -93,9 +86,7 @@ public class VendaController extends ControllerBase {
             Produto produto =
                     (Produto) view.produto.getSelectedItem();
 
-            int quantidade =
-                    ((Number) view.quantidade.getValue())
-                            .intValue();
+            int quantidade = ((Number) view.quantidade.getValue()).intValue();
 
             if (cliente == null) {
                 throw new IllegalArgumentException(
@@ -116,8 +107,7 @@ public class VendaController extends ControllerBase {
             }
 
             if (vendaAtual == null) {
-                vendaAtual =
-                        service.iniciarVenda(cliente);
+                vendaAtual = service.iniciarVenda(cliente);
             }
 
             /*
@@ -159,8 +149,7 @@ public class VendaController extends ControllerBase {
                 );
             }
 
-            int linhaVisual =
-                    view.tabela.getSelectedRow();
+            int linhaVisual = view.tabela.getSelectedRow();
 
             if (linhaVisual < 0) {
                 throw new IllegalArgumentException(
@@ -168,10 +157,9 @@ public class VendaController extends ControllerBase {
                 );
             }
 
-            int linhaModelo =
-                    view.tabela.convertRowIndexToModel(
-                            linhaVisual
-                    );
+            int linhaModelo = view.tabela.convertRowIndexToModel(
+                    linhaVisual
+            );
 
             service.removerItem(
                     vendaAtual,
@@ -197,18 +185,16 @@ public class VendaController extends ControllerBase {
             return;
         }
 
-        view.model.setDados(
-                vendaAtual.getItens()
+        view.model.setDados(vendaAtual.getItens());
+
+        BigDecimal desconto = converterValor(
+                view.desconto.getText()
         );
 
-        BigDecimal desconto =
-                converterValor(view.desconto.getText());
-
-        BigDecimal total =
-                service.calcularTotal(
-                        vendaAtual,
-                        desconto
-                );
+        BigDecimal total = service.calcularTotal(
+                vendaAtual,
+                desconto
+        );
 
         view.exibirTotal(total);
     }
@@ -228,13 +214,11 @@ public class VendaController extends ControllerBase {
             }
 
             FormaPagamentos pagamento =
-                    (FormaPagamentos)
-                            view.pagamento.getSelectedItem();
+                    (FormaPagamentos) view.pagamento.getSelectedItem();
 
-            BigDecimal desconto =
-                    converterValor(
-                            view.desconto.getText()
-                    );
+            BigDecimal desconto = converterValor(
+                    view.desconto.getText()
+            );
 
             service.finalizarVenda(
                     vendaAtual,
@@ -296,20 +280,16 @@ public class VendaController extends ControllerBase {
     }
 
     private BigDecimal converterValor(String texto) {
-        if (texto == null
-                || texto.trim().isEmpty()) {
-
+        if (texto == null || texto.trim().isEmpty()) {
             return BigDecimal.ZERO;
         }
 
         try {
-            Number valor =
-                    formato.parse(texto.trim());
+            Number valor = formato.parse(texto.trim());
 
-            BigDecimal resultado =
-                    BigDecimal.valueOf(
-                            valor.doubleValue()
-                    );
+            BigDecimal resultado = BigDecimal.valueOf(
+                    valor.doubleValue()
+            );
 
             if (resultado.compareTo(BigDecimal.ZERO) < 0) {
                 throw new IllegalArgumentException(

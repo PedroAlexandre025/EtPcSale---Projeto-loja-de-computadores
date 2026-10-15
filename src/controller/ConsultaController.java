@@ -6,16 +6,16 @@ import view.consulta.*;
 import javax.swing.*;
 
 public class ConsultaController extends ControllerBase {
+
     private final ConsultaClientePanel view;
     private final ClienteService service;
     private final ConsultaProdutoPanel viewProduto;
 
-
     public ConsultaController(
             ConsultaClientePanel view,
             ClienteService service,
-            ConsultaProdutoPanel viewProduto) {
-
+            ConsultaProdutoPanel viewProduto
+    ) {
         this.view = view;
         this.service = service;
         this.viewProduto = viewProduto;
@@ -25,34 +25,33 @@ public class ConsultaController extends ControllerBase {
     }
 
     private void carregarClientes() {
-        view.model.setDados(
-                service.listarClientes()
-        );
-
+        view.model.setDados(service.listarClientes());
         view.filtrar();
     }
 
     @Override
     public void eventos() {
-        view.consultar.addActionListener(
-                evento -> consultar()
-        );
+        view.consultar.addActionListener(evento -> consultar());
 
         view.limpar.addActionListener(
                 evento -> view.limparCampos()
         );
 
-        view.busca.addActionListener(
-                evento -> consultar()
+        view.busca.addActionListener(evento -> consultar());
+
+        viewProduto.consultar.addActionListener(
+                evento -> consultarProduto()
         );
 
-        viewProduto.consultar.addActionListener(e -> consultarProduto());
+        viewProduto.limpar.addActionListener(
+                evento -> viewProduto.limparFiltros()
+        );
 
-        viewProduto.limpar.addActionListener(e -> viewProduto.limparFiltros());
-
-        viewProduto.busca.addActionListener(e-> consultarProduto());
-
+        viewProduto.busca.addActionListener(
+                evento -> consultarProduto()
+        );
     }
+
     private void consultar() {
         String texto = view.busca.getText().trim();
 
@@ -79,8 +78,7 @@ public class ConsultaController extends ControllerBase {
     }
 
     private void consultarProduto() {
-        String texto =
-                viewProduto.busca.getText().trim();
+        String texto = viewProduto.busca.getText().trim();
 
         if (texto.isEmpty()) {
             JOptionPane.showMessageDialog(
@@ -104,12 +102,9 @@ public class ConsultaController extends ControllerBase {
         }
     }
 
-
     public void atualizarTabela() {
         view.busca.setText("");
-        view.model.setDados(
-                service.listarClientes()
-        );
+        view.model.setDados(service.listarClientes());
         view.filtrar();
     }
 }

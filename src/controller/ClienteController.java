@@ -8,12 +8,18 @@ import view.tablemodel.ClienteTableModel;
 import javax.swing.*;
 
 public class ClienteController extends ControllerBase {
+
     private final CadastroClientePanel view;
     private final ClienteService service;
     private final ConsultaController consultaController;
     private final VendaController vendaController;
 
-    public ClienteController(CadastroClientePanel view, ClienteService service, ConsultaController consultaController, VendaController vendaController) {
+    public ClienteController(
+            CadastroClientePanel view,
+            ClienteService service,
+            ConsultaController consultaController,
+            VendaController vendaController
+    ) {
         this.view = view;
         this.service = service;
         this.consultaController = consultaController;
@@ -24,39 +30,28 @@ public class ClienteController extends ControllerBase {
         eventos();
     }
 
-
     @Override
-    public void eventos(){
-        view.salvar.addActionListener(e -> {salvarCliente();
-        });
-        view.remover.addActionListener(e -> {removerCliente();});
+    public void eventos() {
+        view.salvar.addActionListener(e -> salvarCliente());
+        view.remover.addActionListener(e -> removerCliente());
     }
 
     private void salvarCliente() {
         try {
-            Cliente clienteSelecionado =
-                    view.getSelecionado();
+            Cliente clienteSelecionado = view.getSelecionado();
 
-            String nome =
-                    view.nome.getText().trim();
-
-            String cpf =
-                    view.cpf.getText().trim();
-
-            String telefone =
-                    view.telefone.getText().trim();
-
-            String email =
-                    view.email.getText().trim();
+            String nome = view.nome.getText().trim();
+            String cpf = view.cpf.getText().trim();
+            String telefone = view.telefone.getText().trim();
+            String email = view.email.getText().trim();
 
             if (clienteSelecionado == null) {
-                Cliente cliente =
-                        service.RegistrarCliente(
-                                nome,
-                                telefone,
-                                cpf,
-                                email
-                        );
+                Cliente cliente = service.RegistrarCliente(
+                        nome,
+                        telefone,
+                        cpf,
+                        email
+                );
 
                 view.model.addDados(cliente);
 
@@ -69,7 +64,6 @@ public class ClienteController extends ControllerBase {
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE
                 );
-
             } else {
                 service.atualizar(
                         clienteSelecionado.getId(),
@@ -149,16 +143,10 @@ public class ClienteController extends ControllerBase {
                     "Não foi possível remover",
                     JOptionPane.WARNING_MESSAGE
             );
-
-
         }
-
     }
 
     private void carregarClientes() {
-        view.model.setDados(
-                service.listarClientes()
-        );
+        view.model.setDados(service.listarClientes());
     }
-
 }

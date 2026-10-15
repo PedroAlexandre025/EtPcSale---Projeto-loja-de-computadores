@@ -4,14 +4,15 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+
 import javax.swing.JOptionPane;
 
 import model.entitties.Fornecedor;
 import model.entitties.Produto;
 import model.enums.CategoriaProduto;
+import model.service.FornecedorService;
 import model.service.ProdutoService;
 import view.cadastro.CadastroProdutoPanel;
-import model.service.FornecedorService;
 
 public class ProdutoController extends ControllerBase {
 
@@ -21,18 +22,17 @@ public class ProdutoController extends ControllerBase {
     private final FornecedorService fornecedorService;
     private final VendaController vendaController;
 
-    private final NumberFormat formato =
-            NumberFormat.getNumberInstance(
-                    Locale.forLanguageTag("pt-BR")
-            );
+    private final NumberFormat formato = NumberFormat.getNumberInstance(
+            Locale.forLanguageTag("pt-BR")
+    );
 
     public ProdutoController(
             CadastroProdutoPanel view,
             ProdutoService service,
             ConsultaProdutoController consultaController,
             FornecedorService fornecedorService,
-            VendaController vendaController) {
-
+            VendaController vendaController
+    ) {
         this.view = view;
         this.service = service;
         this.consultaController = consultaController;
@@ -45,9 +45,7 @@ public class ProdutoController extends ControllerBase {
     }
 
     private void carregarProdutos() {
-        view.model.setDados(
-                service.listarProdutos()
-        );
+        view.model.setDados(service.listarProdutos());
     }
 
     @Override
@@ -63,27 +61,18 @@ public class ProdutoController extends ControllerBase {
 
     private void salvarProduto() {
         try {
-            Produto produtoSelecionado =
-                    view.getSelecionado();
+            Produto produtoSelecionado = view.getSelecionado();
 
-            String nome =
-                    view.nome.getText().trim();
+            String nome = view.nome.getText().trim();
 
             CategoriaProduto categoria =
-                    (CategoriaProduto)
-                            view.categoria.getSelectedItem();
+                    (CategoriaProduto) view.categoria.getSelectedItem();
 
-            BigDecimal preco =
-                    converterPreco(
-                            view.preco.getText()
-                    );
+            BigDecimal preco = converterPreco(view.preco.getText());
 
-            int estoque =
-                    ((Number) view.estoque.getValue())
-                            .intValue();
+            int estoque = ((Number) view.estoque.getValue()).intValue();
 
-            Fornecedor fornecedor =
-                    view.getFornecedorSelecionado();
+            Fornecedor fornecedor = view.getFornecedorSelecionado();
 
             if (categoria == null) {
                 throw new IllegalArgumentException(
@@ -92,14 +81,13 @@ public class ProdutoController extends ControllerBase {
             }
 
             if (produtoSelecionado == null) {
-                Produto produto =
-                        service.registrarProduto(
-                                nome,
-                                categoria,
-                                preco,
-                                estoque,
-                                fornecedor
-                        );
+                Produto produto = service.registrarProduto(
+                        nome,
+                        categoria,
+                        preco,
+                        estoque,
+                        fornecedor
+                );
 
                 vendaController.atualizarProdutos();
 
@@ -109,7 +97,6 @@ public class ProdutoController extends ControllerBase {
                         "Sucesso",
                         JOptionPane.INFORMATION_MESSAGE
                 );
-
             } else {
                 service.atualizarProduto(
                         produtoSelecionado.getId(),
@@ -128,9 +115,7 @@ public class ProdutoController extends ControllerBase {
                 );
             }
 
-            view.model.setDados(
-                    service.listarProdutos()
-            );
+            view.model.setDados(service.listarProdutos());
 
             consultaController.atualizarTabela();
             view.limparCampos();
@@ -146,8 +131,7 @@ public class ProdutoController extends ControllerBase {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     view,
-                    "Erro ao salvar produto: "
-                            + ex.getMessage(),
+                    "Erro ao salvar produto: " + ex.getMessage(),
                     "Erro",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -155,7 +139,6 @@ public class ProdutoController extends ControllerBase {
             ex.printStackTrace();
         }
     }
-
 
     private BigDecimal converterPreco(String texto) {
         if (texto == null || texto.trim().isEmpty()) {
@@ -165,12 +148,9 @@ public class ProdutoController extends ControllerBase {
         }
 
         try {
-            Number valor =
-                    formato.parse(texto.trim());
+            Number valor = formato.parse(texto.trim());
 
-            return BigDecimal.valueOf(
-                    valor.doubleValue()
-            );
+            return BigDecimal.valueOf(valor.doubleValue());
 
         } catch (ParseException ex) {
             throw new IllegalArgumentException(
@@ -181,8 +161,7 @@ public class ProdutoController extends ControllerBase {
 
     private void removerProduto() {
         try {
-            Produto produto =
-                    view.getSelecionado();
+            Produto produto = view.getSelecionado();
 
             if (produto == null) {
                 JOptionPane.showMessageDialog(
@@ -191,28 +170,22 @@ public class ProdutoController extends ControllerBase {
                         "Aviso",
                         JOptionPane.WARNING_MESSAGE
                 );
-
                 return;
             }
 
-            boolean confirmou =
-                    view.confirmar(
-                            "Deseja remover o produto \""
-                                    + produto.getNome()
-                                    + "\"?"
-                    );
+            boolean confirmou = view.confirmar(
+                    "Deseja remover o produto \""
+                            + produto.getNome()
+                            + "\"?"
+            );
 
             if (!confirmou) {
                 return;
             }
 
-            service.removerProduto(
-                    produto.getId()
-            );
+            service.removerProduto(produto.getId());
 
-            view.model.setDados(
-                    service.listarProdutos()
-            );
+            view.model.setDados(service.listarProdutos());
 
             consultaController.atualizarTabela();
             view.limparCampos();
@@ -245,8 +218,6 @@ public class ProdutoController extends ControllerBase {
     }
 
     public void atualizarTabela() {
-        view.model.setDados(
-                service.listarProdutos()
-        );
+        view.model.setDados(service.listarProdutos());
     }
 }
