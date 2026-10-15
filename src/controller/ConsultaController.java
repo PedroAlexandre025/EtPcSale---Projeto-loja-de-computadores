@@ -68,7 +68,7 @@ public class ConsultaController extends ControllerBase {
 
         view.filtrar();
 
-        if (viewProduto.tabela.getRowCount() == 0) {
+        if (view.tabela.getRowCount() == 0) {
             JOptionPane.showMessageDialog(
                     view,
                     "Nenhum cliente encontrado.",
