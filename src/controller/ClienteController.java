@@ -32,37 +32,71 @@ public class ClienteController extends ControllerBase {
 
     private void salvarCliente() {
         try {
-            String nome = view.nome.getText();
-            String cpf = view.cpf.getText();
-            String telefone = view.telefone.getText();
-            String email = view.email.getText();
+            Cliente clienteSelecionado =
+                    view.getSelecionado();
 
-            Cliente cliente = service.RegistrarCliente(nome,
-                    telefone,
-                    cpf,
-                    email);
+            String nome =
+                    view.nome.getText().trim();
 
+            String cpf =
+                    view.cpf.getText().trim();
 
-            view.model.addDados(cliente);
-            consultaController.atualizarTabela();
+            String telefone =
+                    view.telefone.getText().trim();
+
+            String email =
+                    view.email.getText().trim();
+
+            if (clienteSelecionado == null) {
+                Cliente cliente =
+                        service.RegistrarCliente(
+                                nome,
+                                telefone,
+                                cpf,
+                                email
+                        );
+
+                view.model.addDados(cliente);
+
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Cliente salvo com sucesso.",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+            } else {
+                service.atualizar(
+                        clienteSelecionado.getId(),
+                        nome,
+                        telefone,
+                        cpf,
+                        email
+                );
+
+                view.model.setDados(
+                        service.listarClientes()
+                );
+
+                consultaController.atualizarTabela();
+
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Cliente atualizado com sucesso.",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+
             view.limparCampos();
 
-            JOptionPane.showMessageDialog(
-                    view,
-                    "Cliente salvo com sucesso.",
-                    "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
         } catch (IllegalArgumentException ex) {
-
             JOptionPane.showMessageDialog(
                     view,
                     ex.getMessage(),
                     "Não foi possível salvar",
                     JOptionPane.WARNING_MESSAGE
             );
-
         }
     }
 

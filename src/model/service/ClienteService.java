@@ -50,6 +50,82 @@ public class ClienteService {
 
     }
 
+    public void atualizar(
+            int id,
+            String nome,
+            String telefone,
+            String cpf,
+            String email) {
+
+        String nomeValido =
+                validacao.texto(nome);
+
+        String telefoneValido =
+                validacao.telefone(telefone);
+
+        String cpfValido =
+                validacao.cpf(cpf);
+
+        String emailValido =
+                validacao.email(email);
+
+        boolean cpfRepetido =
+                listarClientes()
+                        .stream()
+                        .anyMatch(cliente ->
+                                cliente.getId() != id
+                                        && cliente.getDocumento()
+                                        .equals(cpfValido)
+                        );
+
+        if (cpfRepetido) {
+            throw new IllegalArgumentException(
+                    "Já existe um cliente cadastrado com esse CPF."
+            );
+        }
+
+        boolean emailRepetido =
+                listarClientes()
+                        .stream()
+                        .anyMatch(cliente ->
+                                cliente.getId() != id
+                                        && cliente.getEmail()
+                                        .equals(emailValido)
+                        );
+
+        if (emailRepetido) {
+            throw new IllegalArgumentException(
+                    "E-mail já cadastrado."
+            );
+        }
+
+        boolean telefoneRepetido =
+                listarClientes()
+                        .stream()
+                        .anyMatch(cliente ->
+                                cliente.getId() != id
+                                        && cliente.getTelefone()
+                                        .equals(telefoneValido)
+                        );
+
+        if (telefoneRepetido) {
+            throw new IllegalArgumentException(
+                    "Telefone já cadastrado para outro cliente."
+            );
+        }
+
+        Cliente clienteAtualizado =
+                new Cliente(
+                        id,
+                        nomeValido,
+                        telefoneValido,
+                        cpfValido,
+                        emailValido
+                );
+
+        repositorio.atualizar(clienteAtualizado);
+    }
+
     public void remover(int id){
 
         if (repositorioVenda.listarTodos().stream().anyMatch(v -> v.getCliente().getId() == id)) {

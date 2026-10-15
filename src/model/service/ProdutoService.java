@@ -45,6 +45,53 @@ public class ProdutoService {
         return produto;
 
     }
+    public void atualizarProduto(
+            int id,
+            String nome,
+            CategoriaProduto categoriaProduto,
+            BigDecimal preco,
+            int quantidade,
+            Fornecedor fornecedor) {
+
+        String nomeValido =
+                validacao.texto(nome);
+
+        BigDecimal precoValido =
+                validacao.preco(preco);
+
+        int quantidadeValida =
+                validacao.quantidade(quantidade);
+
+        boolean repetido =
+                listarProdutos()
+                        .stream()
+                        .anyMatch(produto ->
+                                produto.getId() != id
+                                        && produto.getNome()
+                                        .equalsIgnoreCase(nomeValido)
+                        );
+
+        if (repetido) {
+            throw new IllegalArgumentException(
+                    "Já existe outro produto com esse nome."
+            );
+        }
+
+        Produto produtoAtualizado =
+                new Produto(
+                        id,
+                        nomeValido,
+                        categoriaProduto,
+                        precoValido,
+                        quantidadeValida,
+                        fornecedor
+                );
+
+        produtosRepositorio.atualizar(
+                produtoAtualizado
+        );
+    }
+
     public void removerProduto(int id) {
         for (Venda venda : vendasRepositorio.listarTodos()) {
             if (venda.getStatus() == StatusVenda.ABERTA) {

@@ -14,6 +14,23 @@ public class Repositorio< T extends Identificavel<ID>, ID> {
 
     }
 
+    public void atualizar(T objetoAtualizado) {
+        for (int i = 0; i < list.size(); i++) {
+            T objetoAtual = list.get(i);
+
+            if (objetoAtual.getId()
+                    .equals(objetoAtualizado.getId())) {
+
+                list.set(i, objetoAtualizado);
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException(
+                "Registro não encontrado."
+        );
+    }
+
     public Optional<T> buscarPorId(ID id){
         return list.stream()
                 .filter(objeto -> objeto.getId().equals(id))

@@ -55,38 +55,75 @@ public class ProdutoController extends ControllerBase {
 
     private void salvarProduto() {
         try {
-            String nome = view.nome.getText().trim();
+            Produto produtoSelecionado =
+                    view.getSelecionado();
+
+            String nome =
+                    view.nome.getText().trim();
 
             CategoriaProduto categoria =
-                    (CategoriaProduto) view.categoria.getSelectedItem();
+                    (CategoriaProduto)
+                            view.categoria.getSelectedItem();
 
             BigDecimal preco =
-                    converterPreco(view.preco.getText());
+                    converterPreco(
+                            view.preco.getText()
+                    );
 
             int estoque =
-                    (Integer) view.estoque.getValue();
+                    ((Number) view.estoque.getValue())
+                            .intValue();
 
             Fornecedor fornecedor =
                     view.getFornecedorSelecionado();
 
-            Produto produto = service.registrarProduto(
-                    nome,
-                    categoria,
-                    preco,
-                    estoque,
-                    fornecedor
+            if (categoria == null) {
+                throw new IllegalArgumentException(
+                        "Selecione uma categoria."
+                );
+            }
+
+            if (produtoSelecionado == null) {
+                Produto produto =
+                        service.registrarProduto(
+                                nome,
+                                categoria,
+                                preco,
+                                estoque,
+                                fornecedor
+                        );
+
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Produto cadastrado com sucesso.",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+            } else {
+                service.atualizarProduto(
+                        produtoSelecionado.getId(),
+                        nome,
+                        categoria,
+                        preco,
+                        estoque,
+                        fornecedor
+                );
+
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Produto atualizado com sucesso.",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+
+            view.model.setDados(
+                    service.listarProdutos()
             );
 
-            view.model.addDados(produto);
             consultaController.atualizarTabela();
             view.limparCampos();
-
-            JOptionPane.showMessageDialog(
-                    view,
-                    "Produto cadastrado com sucesso.",
-                    "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
 
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(
@@ -99,7 +136,8 @@ public class ProdutoController extends ControllerBase {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     view,
-                    "Erro ao salvar produto: " + ex.getMessage(),
+                    "Erro ao salvar produto: "
+                            + ex.getMessage(),
                     "Erro",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -108,24 +146,27 @@ public class ProdutoController extends ControllerBase {
         }
     }
 
-    private BigDecimal converterPreco(String texto)
-            throws ParseException {
 
+    private BigDecimal converterPreco(String texto) {
         if (texto == null || texto.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Informe o preço do produto."
             );
         }
 
-        Number valor = formato.parse(texto.trim());
+        try {
+            Number valor =
+                    formato.parse(texto.trim());
 
-        if (valor instanceof BigDecimal) {
-            return (BigDecimal) valor;
+            return BigDecimal.valueOf(
+                    valor.doubleValue()
+            );
+
+        } catch (ParseException ex) {
+            throw new IllegalArgumentException(
+                    "Informe um preço válido. Exemplo: 1.299,90"
+            );
         }
-
-        return BigDecimal.valueOf(
-                valor.doubleValue()
-        );
     }
 
     private void removerProduto() {
@@ -140,14 +181,16 @@ public class ProdutoController extends ControllerBase {
                         "Aviso",
                         JOptionPane.WARNING_MESSAGE
                 );
+
                 return;
             }
 
-            boolean confirmou = view.confirmar(
-                    "Deseja remover o produto \""
-                            + produto.getNome()
-                            + "\"?"
-            );
+            boolean confirmou =
+                    view.confirmar(
+                            "Deseja remover o produto \""
+                                    + produto.getNome()
+                                    + "\"?"
+                    );
 
             if (!confirmou) {
                 return;
@@ -157,20 +200,11 @@ public class ProdutoController extends ControllerBase {
                     produto.getId()
             );
 
-            int linhaVisual =
-                    view.tabela.getSelectedRow();
-
-            int linhaModelo =
-                    view.tabela.convertRowIndexToModel(
-                            linhaVisual
-                    );
-
-            view.model.removeDados(
-                    linhaModelo
+            view.model.setDados(
+                    service.listarProdutos()
             );
 
             consultaController.atualizarTabela();
-
             view.limparCampos();
 
             JOptionPane.showMessageDialog(
