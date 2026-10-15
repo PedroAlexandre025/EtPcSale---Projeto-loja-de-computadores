@@ -1,6 +1,7 @@
 package view.cadastro;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,6 +57,7 @@ public class CadastroProdutoPanel extends FormularioPanel {
         categoria.setSelectedIndex(0);
         preco.setText("");
         estoque.setValue(0);
+        fornecedor.setSelectedIndex(-1);
         nome.requestFocusInWindow();
     }
 
@@ -75,6 +77,18 @@ public class CadastroProdutoPanel extends FormularioPanel {
 
     public Fornecedor getFornecedorSelecionado() {
         return (Fornecedor) fornecedor.getSelectedItem();
+    }
+
+    public void definirFornecedores(
+            List<Fornecedor> fornecedores) {
+
+        fornecedor.removeAllItems();
+
+        for (Fornecedor item : fornecedores) {
+            fornecedor.addItem(item);
+        }
+
+        fornecedor.setSelectedIndex(-1);
     }
 
     public Produto getSelecionado() {

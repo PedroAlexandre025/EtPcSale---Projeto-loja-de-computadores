@@ -27,5 +27,10 @@ public class Fornecedor extends Pessoa {
         this.razaoSocial = razaoSocial;
     }
 
+    @Override
+    public String toString() {
+        return razaoSocial + " - " + cnpj;
+    }
+
 
 }

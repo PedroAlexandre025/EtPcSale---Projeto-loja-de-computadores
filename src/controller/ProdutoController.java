@@ -11,12 +11,15 @@ import model.entitties.Produto;
 import model.enums.CategoriaProduto;
 import model.service.ProdutoService;
 import view.cadastro.CadastroProdutoPanel;
+import model.service.FornecedorService;
 
 public class ProdutoController extends ControllerBase {
 
     private final CadastroProdutoPanel view;
     private final ProdutoService service;
     private final ConsultaProdutoController consultaController;
+    private final FornecedorService fornecedorService;
+    private final VendaController vendaController;
 
     private final NumberFormat formato =
             NumberFormat.getNumberInstance(
@@ -26,13 +29,18 @@ public class ProdutoController extends ControllerBase {
     public ProdutoController(
             CadastroProdutoPanel view,
             ProdutoService service,
-            ConsultaProdutoController consultaController) {
+            ConsultaProdutoController consultaController,
+            FornecedorService fornecedorService,
+            VendaController vendaController) {
 
         this.view = view;
         this.service = service;
         this.consultaController = consultaController;
+        this.fornecedorService = fornecedorService;
+        this.vendaController = vendaController;
 
         carregarProdutos();
+        carregarFornecedores();
         eventos();
     }
 
@@ -92,6 +100,8 @@ public class ProdutoController extends ControllerBase {
                                 estoque,
                                 fornecedor
                         );
+
+                vendaController.atualizarProdutos();
 
                 JOptionPane.showMessageDialog(
                         view,
@@ -222,6 +232,16 @@ public class ProdutoController extends ControllerBase {
                     JOptionPane.WARNING_MESSAGE
             );
         }
+    }
+
+    private void carregarFornecedores() {
+        view.definirFornecedores(
+                fornecedorService.listarFornecedores()
+        );
+    }
+
+    public void atualizarFornecedores() {
+        carregarFornecedores();
     }
 
     public void atualizarTabela() {

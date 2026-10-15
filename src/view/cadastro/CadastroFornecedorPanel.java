@@ -5,9 +5,7 @@ import javax.swing.*;
 import model.entitties.Fornecedor;
 import view.FormularioPanel;
 import view.tablemodel.FornecedorTableModel;
-import java.util.List;
-import javax.swing.JComboBox;
-import model.entitties.Produto;
+
 
 public class CadastroFornecedorPanel extends FormularioPanel {
 
@@ -17,7 +15,6 @@ public class CadastroFornecedorPanel extends FormularioPanel {
     public final JTextField telefone = new JTextField();
     public final JTextField cnpj = new JTextField();
     public final JTextField razaoSocial = new JTextField();
-    public final JComboBox<Produto> prodFornecido = new JComboBox<>();
 
     public final JButton salvar, remover, limpar;
     public final FornecedorTableModel model = new FornecedorTableModel();
@@ -29,7 +26,6 @@ public class CadastroFornecedorPanel extends FormularioPanel {
         campo("Telefone", telefone);
         campo("CNPJ", cnpj);
         campo("Razão social", razaoSocial);
-        campo("Produto fornecido", prodFornecido);
 
         salvar = botao("Salvar");
         remover = botao("Remover");
@@ -58,7 +54,6 @@ public class CadastroFornecedorPanel extends FormularioPanel {
         cnpj.setText("");
         razaoSocial.setText("");
         nome.requestFocusInWindow();
-        prodFornecido.setSelectedIndex(-1);
     }
 
     public void preencherCampos(Fornecedor fornecedor) {
@@ -82,19 +77,5 @@ public class CadastroFornecedorPanel extends FormularioPanel {
         }
 
         return model.getItem(tabela.convertRowIndexToModel(linha));
+     }
     }
-
-    public void definirProd(List<Produto> prod) {
-        prodFornecido.removeAllItems();
-
-        for (Produto produto : prod) {
-            prodFornecido.addItem(produto);
-        }
-
-        prodFornecido.setSelectedIndex(-1);
-    }
-
-    public Produto getProdutoSelecionado() {
-        return (Produto) prodFornecido.getSelectedItem();
-    }
-}

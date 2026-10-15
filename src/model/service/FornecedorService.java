@@ -39,6 +39,82 @@ public class FornecedorService {
 
     }
 
+    public void atualizarFornecedor(
+            int id,
+            String nome,
+            String telefone,
+            String cnpj,
+            String razaoSocial) {
+
+        String nomeValido =
+                validacao.texto(nome);
+
+        String telefoneValido =
+                validacao.telefone(telefone);
+
+        String cnpjValido =
+                validacao.cnpj(cnpj);
+
+        String razaoSocialValida =
+                validacao.razaoSocial(razaoSocial);
+
+        boolean fornecedorExiste =
+                listarFornecedores()
+                        .stream()
+                        .anyMatch(fornecedor ->
+                                fornecedor.getId().equals(id)
+                        );
+
+        if (!fornecedorExiste) {
+            throw new IllegalArgumentException(
+                    "Fornecedor não encontrado."
+            );
+        }
+
+        boolean cnpjRepetido =
+                listarFornecedores()
+                        .stream()
+                        .anyMatch(fornecedor ->
+                                fornecedor.getId() != id
+                                        && fornecedor.getDocumento()
+                                        .equals(cnpjValido)
+                        );
+
+        if (cnpjRepetido) {
+            throw new IllegalArgumentException(
+                    "CNPJ já registrado para outro fornecedor."
+            );
+        }
+
+        boolean telefoneRepetido =
+                listarFornecedores()
+                        .stream()
+                        .anyMatch(fornecedor ->
+                                fornecedor.getId() != id
+                                        && fornecedor.getTelefone()
+                                        .equals(telefoneValido)
+                        );
+
+        if (telefoneRepetido) {
+            throw new IllegalArgumentException(
+                    "Telefone já cadastrado para outro fornecedor."
+            );
+        }
+
+        Fornecedor fornecedorAtualizado =
+                new Fornecedor(
+                        id,
+                        nomeValido,
+                        telefoneValido,
+                        cnpjValido,
+                        razaoSocialValida
+                );
+
+        fornecedoresRepositorio.atualizar(
+                fornecedorAtualizado
+        );
+    }
+
     public void remover(int id){
         fornecedoresRepositorio.deletar(id);
     }

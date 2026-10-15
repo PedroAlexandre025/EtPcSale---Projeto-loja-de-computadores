@@ -42,19 +42,6 @@ public class Main {
                             repositorioVenda
                     );
 
-            ConsultaController consultaController =
-                    new ConsultaController(
-                            consultaClientes,
-                            clienteService,
-                            consultaProdutos
-                    );
-
-            new ClienteController(
-                    clientes,
-                    clienteService,
-                    consultaController
-            );
-
             RepositorioProduto repositorioProduto =
                     new RepositorioProduto();
 
@@ -70,13 +57,6 @@ public class Main {
                             produtoService
                     );
 
-            ProdutoController produtoController =
-                    new ProdutoController(
-                            produtos,
-                            produtoService,
-                            consultaProdutoController
-                    );
-
             RepositorioFornecedor repositorioFornecedor =
                     new RepositorioFornecedor();
 
@@ -84,6 +64,51 @@ public class Main {
                     new FornecedorService(
                             repositorioFornecedor
                     );
+
+            VendaService vendaService =
+                    new VendaService(
+                            repositorioVenda
+                    );
+
+            VendaController vendaController =
+                    new VendaController(
+                            vendas,
+                            vendaService,
+                            clienteService,
+                            produtoService
+                    );
+
+            ConsultaController consultaController =
+                    new ConsultaController(
+                            consultaClientes,
+                            clienteService,
+                            consultaProdutos
+                    );
+
+            new ClienteController(
+                    clientes,
+                    clienteService,
+                    consultaController,
+                    vendaController
+            );
+
+            ProdutoController produtoController =
+                    new ProdutoController(
+                            produtos,
+                            produtoService,
+                            consultaProdutoController,
+                            fornecedorService,
+                            vendaController
+                    );
+
+            FornecedorController fornecedorController =
+                    new FornecedorController(
+                            fornecedores,
+                            fornecedorService,
+                            produtoController
+                    );
+
+
 
             tela.adicionarTela("Cadastro de Fornecedores", fornecedores, null);
             tela.adicionarTela("Cadastro de clientes", clientes, null);
@@ -93,7 +118,7 @@ public class Main {
             tela.adicionarTela("Movimento de vendas", vendas, null);
             clientes.consultar.addActionListener(e -> tela.mostrarTela("Consulta de clientes"));
 
-            tela.aviso("salvar, remover e movimentar vendas falta fazer os controller por isso nao funfa.");
+            tela.aviso("EtPcSale -- Loja de computadores.");
             tela.setVisible(true);
         });
     }

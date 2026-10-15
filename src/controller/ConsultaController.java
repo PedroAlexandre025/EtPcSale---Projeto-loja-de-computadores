@@ -68,7 +68,7 @@ public class ConsultaController extends ControllerBase {
 
         view.filtrar();
 
-        if (view.tabela.getRowCount() == 0) {
+        if (viewProduto.tabela.getRowCount() == 0) {
             JOptionPane.showMessageDialog(
                     view,
                     "Nenhum cliente encontrado.",
@@ -79,11 +79,12 @@ public class ConsultaController extends ControllerBase {
     }
 
     private void consultarProduto() {
-        String texto = viewProduto.busca.getText().trim();
+        String texto =
+                viewProduto.busca.getText().trim();
 
         if (texto.isEmpty()) {
             JOptionPane.showMessageDialog(
-                    view,
+                    viewProduto,
                     "Digite um produto válido.",
                     "Consulta",
                     JOptionPane.WARNING_MESSAGE
@@ -93,9 +94,9 @@ public class ConsultaController extends ControllerBase {
 
         viewProduto.aplicarFiltros();
 
-        if (view.tabela.getRowCount() == 0) {
+        if (viewProduto.tabela.getRowCount() == 0) {
             JOptionPane.showMessageDialog(
-                    view,
+                    viewProduto,
                     "Nenhum produto encontrado.",
                     "Consulta",
                     JOptionPane.INFORMATION_MESSAGE
@@ -105,10 +106,10 @@ public class ConsultaController extends ControllerBase {
 
 
     public void atualizarTabela() {
+        view.busca.setText("");
         view.model.setDados(
                 service.listarClientes()
         );
-
         view.filtrar();
     }
 }

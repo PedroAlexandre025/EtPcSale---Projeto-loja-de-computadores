@@ -11,11 +11,13 @@ public class ClienteController extends ControllerBase {
     private final CadastroClientePanel view;
     private final ClienteService service;
     private final ConsultaController consultaController;
+    private final VendaController vendaController;
 
-    public ClienteController(CadastroClientePanel view, ClienteService service, ConsultaController consultaController) {
+    public ClienteController(CadastroClientePanel view, ClienteService service, ConsultaController consultaController, VendaController vendaController) {
         this.view = view;
         this.service = service;
         this.consultaController = consultaController;
+        this.vendaController = vendaController;
 
         view.model.setDados(service.listarClientes());
 
@@ -58,6 +60,9 @@ public class ClienteController extends ControllerBase {
 
                 view.model.addDados(cliente);
 
+                consultaController.atualizarTabela();
+                vendaController.atualizarClientes();
+
                 JOptionPane.showMessageDialog(
                         view,
                         "Cliente salvo com sucesso.",
@@ -74,10 +79,9 @@ public class ClienteController extends ControllerBase {
                         email
                 );
 
-                view.model.setDados(
-                        service.listarClientes()
-                );
+                carregarClientes();
 
+                vendaController.atualizarClientes();
                 consultaController.atualizarTabela();
 
                 JOptionPane.showMessageDialog(
@@ -124,9 +128,11 @@ public class ClienteController extends ControllerBase {
 
             service.remover(cliente.getId());
 
-            int linhaView = view.tabela.getSelectedRow();
-            int linhaModelo = view.tabela.convertRowIndexToModel(linhaView);
-            view.model.removeDados(linhaModelo);
+            carregarClientes();
+
+            consultaController.atualizarTabela();
+            vendaController.atualizarClientes();
+
             view.limparCampos();
 
             JOptionPane.showMessageDialog(
@@ -146,5 +152,13 @@ public class ClienteController extends ControllerBase {
 
 
         }
+
     }
+
+    private void carregarClientes() {
+        view.model.setDados(
+                service.listarClientes()
+        );
+    }
+
 }

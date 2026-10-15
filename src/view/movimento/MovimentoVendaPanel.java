@@ -61,6 +61,8 @@ public class MovimentoVendaPanel extends FormularioPanel {
         cancelarVenda = botao("Cancelar venda");
 
         tabela.setModel(model);
+
+        configurarTabela(tabela);
         configurarTabela(tabelaVendas);
 
         JTabbedPane abas = new JTabbedPane();
