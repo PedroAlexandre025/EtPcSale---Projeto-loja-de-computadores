@@ -1,7 +1,0 @@
-{
-    "java.project.sourcePaths": [
-        "view",
-        "model/enums",
-        "Core"
-    ]
-}
